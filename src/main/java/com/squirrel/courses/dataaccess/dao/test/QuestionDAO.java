@@ -1,4 +1,4 @@
-package com.squirrel.courses.dataaccess.dao.course;
+package com.squirrel.courses.dataaccess.dao.test;
 
 import com.squirrel.courses.dataaccess.model.Question;
 import com.squirrel.courses.dataaccess.mapper.QuestionMapper;
@@ -11,6 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.util.List;
 
+/**
+ * Class QuestionDAO realizes data-access methods related to working with table Question.
+ *
+ * @author    Natalie Tkachenko
+ */
 @Repository
 @Transactional
 public class QuestionDAO extends JdbcDaoSupport implements IQuestionDAO{

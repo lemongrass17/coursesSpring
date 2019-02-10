@@ -11,6 +11,7 @@
     <div th:replace="fragments/header :: header"/>
 
     <div class="main_layer">
+        <input name="q_num" id="q_num" type="text" style="display:none;" value="0">
         <div class="title" id="course_title" th:text="${course.getCourseName()}"></div>
         <hr>
 
@@ -21,9 +22,9 @@
         <form class = "rightcol" id="rightcol_id" th:action="@{/posttest}">
             <div class="material_title" data-medium-editor-element="true">Questions</div>
             <br>
-            <input type="text" name="isExam" id="is_exam" th:value="${isExam}" style="display:none;"/>
+            <!--<input type="text" name="isExam" id="is_exam" th:value="${isExam}" style="display:none;"/>-->
             <input type="text" name="courseId" id="course_id" th:value="${course.getId()}" style="display:none;"/>
-            <input type="text" name="lessonId" id="lesson_id" th:value="${lesson.getId()}" style="display:none;"/>
+            <input type="text" name="lessonId" id="lesson_id" th:value="${lesson == null ? 'null' : lesson.getId()}" style="display:none;"/>
             <input type="text" name="questCount" id="quest_count_id" style="display:none;"/>
             <div id="questContent"></div>
             <div class="testButtons">

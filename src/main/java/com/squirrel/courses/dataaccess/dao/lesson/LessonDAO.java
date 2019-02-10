@@ -20,6 +20,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class LessonDAO realizes data-access methods related to working with table Lesson.
+ *
+ * @author    Vladislava Prokopenko
+ */
 @Repository
 @Transactional
 public class LessonDAO extends JdbcDaoSupport implements ILessonDAO {

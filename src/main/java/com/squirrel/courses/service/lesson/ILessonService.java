@@ -8,4 +8,5 @@ public interface ILessonService {
     List<Lesson> getLessonsByCourse(int course);
     boolean addLesson(Lesson lesson);
     Lesson getLessonById(int lessonId);
+    boolean deleteLesson(int id);
 }

@@ -13,6 +13,7 @@
     margin-top: 100px;
     /*display: inline-flex;*/
     width: 100%;
+    z-index: 0;
 }
 
 .leftCol a{

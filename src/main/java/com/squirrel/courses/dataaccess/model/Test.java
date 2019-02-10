@@ -1,8 +1,23 @@
 package com.squirrel.courses.dataaccess.model;
 
+/**
+ * Class Test represents the entity of test with main information about it.
+ *
+ * @author    Natalie Tkachenko
+ */
 public class Test {
     private int id;
+
+    /**
+     * Var lesson keeps id of appropriate lesson.
+     * But if test is exam, then it keeps id of course.
+     */
     private int lesson;
+
+    /**
+     * Var evaluation defines maximal count of points
+     * which user can earn for answering all questions of this test.
+     */
     private int evaluation;
     private byte isExam;
 

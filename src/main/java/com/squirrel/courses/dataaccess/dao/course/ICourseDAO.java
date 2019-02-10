@@ -3,6 +3,11 @@ package com.squirrel.courses.dataaccess.dao.course;
 import com.squirrel.courses.dataaccess.model.Course;
 import java.util.List;
 
+/**
+ * Interface ICourseDAO assigns data-access methods related to working with table Course.
+ *
+ * @author    Maxim Tytskiy
+ */
 public interface ICourseDAO {
     Course findCourseByID(int id);
     List<Course> findAllCourses();

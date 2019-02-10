@@ -10,6 +10,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 
+/**
+ * Class UserDAO realizes data-access methods related to working with table User.
+ *
+ * @author    Bogdan Popovich
+ */
 @Repository
 @Transactional
 public class UserDAO extends JdbcDaoSupport implements IUserDAO {

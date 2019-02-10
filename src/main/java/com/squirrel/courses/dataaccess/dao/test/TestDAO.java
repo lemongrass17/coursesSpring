@@ -1,9 +1,7 @@
-package com.squirrel.courses.dataaccess.dao.course;
+package com.squirrel.courses.dataaccess.dao.test;
 
 import com.squirrel.courses.dataaccess.mapper.TestMapper;
 import com.squirrel.courses.dataaccess.model.Test;
-import com.squirrel.courses.dataaccess.model.Test;
-import com.squirrel.courses.dataaccess.mapper.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -11,8 +9,12 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
-import java.util.List;
 
+/**
+ * Class TestDAO realizes data-access methods related to working with table Test.
+ *
+ * @author    Natalie Tkachenko
+ */
 @Repository
 @Transactional
 public class TestDAO extends JdbcDaoSupport implements ITestDAO{
@@ -20,6 +22,21 @@ public class TestDAO extends JdbcDaoSupport implements ITestDAO{
     @Autowired
     public TestDAO(DataSource dataSource){
         this.setDataSource(dataSource);
+    }
+
+    @Override
+    public Test findTestById(int id) {
+        String sql = TestMapper.BASE_SQL + " WHERE id = ?";
+
+        Object [] params = new Object[]{id};
+        TestMapper mapper = new TestMapper();
+
+        try {
+            Test test = getJdbcTemplate().queryForObject(sql, params, mapper);                                //возможно неправильно
+            return test;
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override

@@ -6,8 +6,11 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/*
-* class transform result from DB to AppUser class object
+/**
+ * Class UserMapper realizes RowMapper method to convert query result to object AppUser.
+ * Also it contains basic queries as constants.
+ *
+ * @author    Bogdan Popovich
  */
 public class UserMapper implements RowMapper<AppUser> {
     public static final String BASE_SQL = "SELECT login, hash_pass, role, user_name, description FROM user";

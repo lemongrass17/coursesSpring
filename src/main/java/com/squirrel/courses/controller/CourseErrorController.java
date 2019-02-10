@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Class CourseErrorController realizes controller's methods of handling errors.
+ *
+ * @author    Bogdan Popovich
+ */
 @Controller
 public class CourseErrorController implements ErrorController {
 
@@ -17,7 +22,9 @@ public class CourseErrorController implements ErrorController {
         return "/error";
     }
 
-    /*error handling*/
+    /**
+     * Controller method to show error page.
+     */
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request){
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

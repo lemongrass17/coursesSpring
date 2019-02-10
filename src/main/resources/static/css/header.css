@@ -21,6 +21,7 @@ a:hover:after, a:visited:hover:after {
 
 /*header*/
 header {
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
@@ -35,6 +36,7 @@ header {
   border-bottom: 2px solid /*#000000*/#627F9E;
   height: 70px;
   min-width: 1300px;
+  z-index: 2;
 }
 
 header headercount {

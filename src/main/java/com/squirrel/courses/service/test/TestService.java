@@ -1,15 +1,22 @@
-package com.squirrel.courses.service.course;
+package com.squirrel.courses.service.test;
 
-import com.squirrel.courses.dataaccess.dao.course.IAnswerDAO;
-import com.squirrel.courses.dataaccess.dao.course.IQuestionDAO;
-import com.squirrel.courses.dataaccess.dao.course.ITestDAO;
+import com.squirrel.courses.dataaccess.dao.test.IAnswerDAO;
+import com.squirrel.courses.dataaccess.dao.test.IQuestionDAO;
+import com.squirrel.courses.dataaccess.dao.test.ITestDAO;
 import com.squirrel.courses.dataaccess.model.Answer;
 import com.squirrel.courses.dataaccess.model.Question;
 import com.squirrel.courses.dataaccess.model.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class TestService is a interlayer between controller and data-access classes for working with tests.
+ *
+ * @author    Natalie Tkachenko
+ */
+@Service
 public class TestService implements ITestService{
 
     private IAnswerDAO answerDAO;
@@ -29,6 +36,11 @@ public class TestService implements ITestService{
     @Autowired
     public void setAnswerDAO(IAnswerDAO answerDAO) {
         this.answerDAO = answerDAO;
+    }
+
+    @Override
+    public Test findTestById(int id) {
+        return testDAO.findTestById(id);
     }
 
     @Override

@@ -40,7 +40,7 @@
               <ul th:each="course : ${courses}">
                 <div class="course">
                     <a class="courselink" th:href="@{/course(courseId=${course.getId()}, edit=false)}">
-                        <h4><p align="center" th:text="${course.getCourseName() + ': ' + course.getTheme()}"></p></h4>
+                        <h4><p class="courseLinkText" align="center" th:text="${course.getCourseName() + ': ' + course.getTheme()}"></p></h4>
                     </a>
                     <div class = "descript"> <p th:text="${course.getDescription()}"></p></div>
                 </div>

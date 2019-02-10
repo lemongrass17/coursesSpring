@@ -3,6 +3,12 @@ package com.squirrel.courses.dataaccess.dao.lesson;
 import com.squirrel.courses.dataaccess.model.Lesson;
 import java.util.List;
 
+
+/**
+ * Interface ILessonDAO assigns data-access methods related to working with table Lesson.
+ *
+ * @author    Vladislava Prokopenko
+ */
 public interface ILessonDAO{
 
     List<Lesson> allLessonsByCourse(int idCourse);

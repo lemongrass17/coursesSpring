@@ -1,5 +1,10 @@
 package com.squirrel.courses.dataaccess.model;
 
+/**
+ * Class Course represents the entity of training course with main information about it.
+ *
+ * @author    Maxim Tytskiy
+ */
 public class Course {
     private int id;
     private String lecturer;

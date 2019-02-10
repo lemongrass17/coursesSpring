@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class CourseDAO realizes data-access methods related to working with table Course.
+ *
+ * @author    Maxim Tytskiy
+ */
 @Repository
 @Transactional
 public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
@@ -44,8 +49,18 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
 
     @Override
     public boolean editCourse(Course course) {
-        return false;
+        String sql = "UPDATE course SET course_name = ?, theme = ?, description = ? WHERE id=?";
+
+        Object [] params = new Object[]{course.getCourseName(), course.getTheme(), course.getDescription(), course.getId()};
+        try{
+            this.getJdbcTemplate().update(sql, params);
+            return true;
+        }
+        catch (DataAccessException e){
+            return false;
+        }
     }
+
 
     @Override
     public boolean deleteCourse(int courseId) {
@@ -99,7 +114,7 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
         CourseMapper mapper = new CourseMapper();
 
         try {
-            Course course = getJdbcTemplate().queryForObject(sql, params, mapper);                        //возможно неправильно
+            Course course = getJdbcTemplate().queryForObject(sql, params, mapper);
             return course;
         } catch (EmptyResultDataAccessException e){
             return null;
@@ -113,7 +128,7 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
         CourseMapper mapper = new CourseMapper();
 
         try {
-            List<Course> courses = getJdbcTemplate().query(sql, mapper);                                //возможно неправильно
+            List<Course> courses = getJdbcTemplate().query(sql, mapper);
             return courses;
         } catch (EmptyResultDataAccessException e){
             return null;
@@ -128,7 +143,7 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
         CourseMapper mapper = new CourseMapper();
 
         try {
-            List<Course> courses = getJdbcTemplate().query(sql, params,  mapper);                       //возможно неправильно
+            List<Course> courses = getJdbcTemplate().query(sql, params,  mapper);
             return courses;
         } catch (EmptyResultDataAccessException e){
             return null;
@@ -140,7 +155,7 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
         String sql = CourseMapper.THEME_SQL;
 
         try {
-            List<String> themes = this.getJdbcTemplate().queryForList(sql, String.class);               //возможно неправильно
+            List<String> themes = this.getJdbcTemplate().queryForList(sql, String.class);
             return themes;
         } catch (EmptyResultDataAccessException e) {
             return null;
@@ -154,7 +169,7 @@ public class CourseDAO extends JdbcDaoSupport implements ICourseDAO {
         Object[] params = new Object[]{lecturer};
 
         try {
-            List<String> themes = this.getJdbcTemplate().queryForList(sql, params, String.class);       //возможно неправильно
+            List<String> themes = this.getJdbcTemplate().queryForList(sql, params, String.class);
             return themes;
         } catch (EmptyResultDataAccessException e) {
             return null;

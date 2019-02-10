@@ -10,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Class for security configurations
+ *
+ * @author  Bogdan Popovich
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -17,32 +22,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    /*create password encoder*/
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
 
-    /*configure password encoder*/
+    /**
+     * Configure password encoder
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    /*configure roles and permissions to access diff pages*/
+    /**
+     * Configure roles and permissions to access diff pages
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll(); //access for all
+        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/about", "/allcourses").permitAll();
 
         http.authorizeRequests().antMatchers("/profile").access("hasAnyRole('ROLE_ADMIN', 'ROLE_LECTURER', 'ROLE_STUDENT')"); //access for authorized user
 
-        //http.authorizeRequests().antMatchers("/userInfo").hasAnyRole("admin", "lecturer", "student");
-        //http.authorizeRequests().antMatchers("/course").access("hasAnyRole('ROLE_ADMIN', 'ROLE_LECTURER', 'ROLE_STUDENT')");
+        http.authorizeRequests()
+                .antMatchers("/course", "/lesson", "/test")
+                .access("hasAnyRole('ROLE_ADMIN', 'ROLE_LECTURER', 'ROLE_STUDENT')");
+
+        http.authorizeRequests()
+                .antMatchers("/addcourse", "/editcourse", "/postcourse",
+                        "/addtest", "/edittest", "/posttest",
+                        "/addlesson", "/editlesson", "/postlesson")
+                .access("hasAnyRole('ROLE_LECTURER')");
+
 
         // For ADMIN only.
         //http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");

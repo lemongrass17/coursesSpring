@@ -1,13 +1,22 @@
 package com.squirrel.courses.dataaccess.model;
 
-/*
-*user entity class
+/**
+ * Class AppUser represents the entity of user in system with main information about him.
+ *
+ * @author    Bogdan Popovich
  */
 public class AppUser {
     private String login;
     private String hashPass;
+
+    /**
+     * Var role defines user's role and rights in system.
+     * It can be "admin", "lecturer" or "student".
+     */
     private String role;
     private String userName;
+
+    /** Var description keeps information that user wrote about himself. */
     private String description;
 
     public AppUser(String login, String hashPass, String role, String userName, String description) {

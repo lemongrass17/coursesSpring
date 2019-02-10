@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class UserDetailsServiceImpl is a interlayer between controller and data-access classes for working with users.
+ * Implements interface to load user-specific data.
+ *
+ * @author    Bogdan Popovich
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService, IUserService {
 

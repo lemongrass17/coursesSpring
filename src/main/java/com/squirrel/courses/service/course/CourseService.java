@@ -3,12 +3,15 @@ package com.squirrel.courses.service.course;
 import com.squirrel.courses.dataaccess.dao.course.ICourseDAO;
 import com.squirrel.courses.dataaccess.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class CourseService is a interlayer between controller and data-access classes for working with courses.
+ *
+ * @author    Maxim Tytskiy
+ */
 @Service
 public class CourseService implements ICourseService{
 

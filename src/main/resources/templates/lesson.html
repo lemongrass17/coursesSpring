@@ -2,14 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <div th:replace="fragments/header :: header-css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{css/lesson.css}">
+    <script th:src="@{/js/course.js}"></script>
     <title th:text="${lesson.getLessName()}">Template title</title>
 </head>
 <body>
-        <p th:text = "${lesson.getLessName()}"></p>
-        <p th:text = "${lesson.getDescription()}"></p>
-        <p th:text = "${lesson.getMaterial()}"></p>
+<div th:replace="fragments/header :: header"/>
 
-        <p><a th:href= "'coursePage?idCourse='+${lesson.getCourse()}">Back to course</a></p>
-
+<div id="lectBlock">
+    <div id="lectHead">
+        <h2 th:text = "${lesson.getLessName()}"></h2>
+        <!--<p><a th:href= "'course?courseId='+${lesson.getCourse()}">Back to course</a></p>-->
+    </div>
+    <div id="buttOfCourseInfo">
+        <form th:action="@{/course(courseId=${lesson.getCourse()})}">
+            <input type="hidden" name="courseId" th:value="${lesson.getCourse()}">
+            <button type="submit">Back to course</button>
+        </form>
+    </div>
+    <p><b><div  th:text = "'Description: '+${lesson.getDescription()}"></div> </b></p>
+    <div  th:text = "${lesson.getMaterial()}"></div>
+</div>
 </body>
 </html>

@@ -6,6 +6,12 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class TestMapper realizes RowMapper method to convert query result to object Test.
+ * Also it contains basic queries as constants.
+ *
+ * @author    Natalie Tkachenko
+ */
 public class TestMapper implements RowMapper<Test> {
     public static final String BASE_SQL = "SELECT id, lesson, evaluation, isExam FROM test";
     public static final String INSERT_SQL = "INSERT INTO test(lesson, evaluation, isExam)";

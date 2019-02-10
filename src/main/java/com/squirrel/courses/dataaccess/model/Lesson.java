@@ -1,6 +1,11 @@
 package com.squirrel.courses.dataaccess.model;
 
-public class Lesson {
+/**
+ * Class Lesson represents the entity of educational lecture with main information about it.
+ *
+ * @author    Vladislava Prokopenko
+ */
+public class Lesson implements Comparable<Lesson>{
     private int id;
     private int course;
     private String lessName;
@@ -60,5 +65,18 @@ public class Lesson {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    @Override
+    public int compareTo(Lesson lesson) {
+        if (this.id < lesson.id) {
+            return -1;
+        }
+        else if (this.id == lesson.id){
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
 }

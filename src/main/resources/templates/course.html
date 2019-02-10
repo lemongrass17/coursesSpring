@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <div th:replace="fragments/header :: header-css"/>
     <link rel="stylesheet" type="text/css" th:href="@{css/course.css}">
-    <script th:src="@{/js/addcourse.js}"></script>
+    <script th:src="@{/js/course.js}"></script>
     <title th:text="${course.getCourseName()}">Template title</title>
     <script th:src="@{js/course.js}"></script>
 </head>
@@ -30,15 +30,16 @@
         <div id="addExam" th:if="${isAuthor}" th:switch="${exam}">
             <form th:case="null" th:action="addtest">
                 <input type="hidden" name="courseId" th:value="${course.getId()}">
-                <input type="hidden" name="lessonId" th:value="${course.getId()}">
-                <input type="hidden" name="isExam" th:value='true' >
-                <button th:action="@{/addtest(courseId=${course.getId()})}">Add Exam</button>
+                <!--<input type="hidden" name="lessonId" th:value="${course.getId()}">
+                <input type="hidden" name="isExam" th:value='true' >-->
+                <button th:action="@{/addtest}">Add Exam</button>
             </form>
-            <form th:case="*" th:action="addtest"> "edittest"
+            <form th:case="*" th:action="@{/edittest}">
                 <input type="hidden" name="courseId" th:value="${course.getId()}">
-                <input type="hidden" name="lessonId" th:value="${course.getId()}">
-                <input type="hidden" name="isExam" th:value='true' >
-                <button th:action="@{/edittest(courseId=${course.getId()})}">Edit Exam</button>
+                <input type="hidden" name="testId" th:value="${exam.getId()}">
+                <!--<input type="hidden" name="lessonId" th:value="${course.getId()}">
+                <input type="hidden" name="isExam" th:value='true' >-->
+                <button type="submit">Edit Exam</button>
             </form>
         </div>
 
@@ -59,34 +60,19 @@
             <div class = blockRow>
                 <div id="desc">Description:</div>
                 <div class= "ddesc" id="text">
-                    <p id="loremm" th:attr="contenteditable=${(edit && isAuthor) ? 'true' : 'false'}"
+                    <p id="courseDesc" th:attr="contenteditable=${(edit && isAuthor) ? 'true' : 'false'}"
                        th:text="${course.getDescription()}"></p>
                 </div>
             </div>
             <div id="buttOfCourseInfo" th:if="${isAuthor}" th:switch="${edit}">
 
-                <button th:case='true' onclick="update_course()">Save</button>
-
-                <!--<button type="button" onclick="call('<%=courseId%>', '<%=edit%>')" name="button" th:text="${edit ? 'Save' : 'Edit'}"></button>-->
-                <!--             Edit/Save course              --->
+                <button th:case='true' onclick="updateCourse()">Save</button>
                 <form id="data_send1" method="post" th:action="@{/editcourse}">
                     <input type="hidden" name="courseId" th:value="${course.getId()}">
-                    <input hidden="true" id="courseTitle" name="course_title" value="11111111">
-                    <input hidden="true" id="courseTheme" name="theme" value="22222222222">
-                    <input hidden="true" id="courseDescription" name="description" value="33333333">
+                    <input hidden="true" id="courseTitle" name="courseTitle" value="">
+                    <input hidden="true" id="courseTheme" name="theme" value="">
+                    <input hidden="true" id="courseDescription" name="description" value="">
                 </form>
-
-                <!--
-                <button th:case="true" type="button" id="buttontest" th:if="${isAuthor}"
-                        th:action="@{/addtest(course_id=${course.getId()}, test_id='null'}">Add test
-                </button>
-                <button th:case="true" type="button" id="buttontest" th:if="${!isAuthor}"
-                        th:action="@{/passtest(course_id=${course.getId()}, test_id='null')}">Test
-                </button>
-                <button th:case="false" type="button" id="buttontest" th:if="${isAuthor}"
-                        th:action="@{/edittest(course_id=${course.getId()}, test_id=${testlesson.getValue().getId()})}">Edit test
-                </button>
-                -->
 
                 <form action="course" th:case='false'>
                     <input type="hidden" name="courseId" th:value="${course.getId()}">
@@ -111,6 +97,7 @@
     </div>
         <div class="popupconfless" id="popupconflessl">
             <div class="popupless" id="popuplessl">
+                <input type="hidden" id="deleteLess" value="">
                 <div class="operstatus">Lecture will be deleted. Continue?</div>
                 <div class="popUpButtons">
                     <button class="confirm" onclick="deleteLesson()">OK</button>
@@ -140,137 +127,52 @@
             <div id="text">
                 <p id="lorem" th:text="${testlesson.getKey().getDescription()}"></p>
             </div>
-            <div id="bottom" th:switch="${testlesson.getValue() == null}">
-
-                <form th:case="true" action="addtest">
+            <div id="bottom">
+                <form th:if="${(testlesson.getValue() == null) && (isAuthor)}" th:action="@{/addtest}">
                     <input type="hidden" name="courseId" th:value="${course.getId()}" >
-
+                    <input type="hidden" name="lessonId" th:value="${testlesson.getKey().getId()}">
+                    <input type="hidden" name="isExam" th:value="0">
                     <button class="buttontest">Add test</button>
                 </form>
 
-                <form th:case="false" action="addtest">
+                <form th:if="${(testlesson.getValue() != null) && (isAuthor)}" th:action="@{/edittest}">
                     <input type="hidden" name="courseId" th:value="${course.getId()}">
-                    <input type="hidden" name="testId" th:value="null">
-                    <button class="buttontest">Test</button>
+                    <input type="hidden" name="testId" th:value="${testlesson.getValue().getId()}">
+                    <button class="buttontest">Edit test</button>
                 </form>
 
+                <form th:if="${(testlesson.getValue() != null) && (!isAuthor)}" th:action="@{/test}">
+                    <input type="hidden" name="courseId" th:value="${course.getId()}">
+                    <input type="hidden" name="lessonId" th:value="${testlesson.getKey().getId()}">
+                    <input type="hidden" name="isExam" th:value="0">
+                    <button class="buttontest">Test</button>
+                </form>
                 <!--<button th:case="true" type="button" id="buttontest" th:if="${!isAuthor}"
                          th:action="@{/passtest(course_id=${course.getId()}, test_id='null')}">Test
-                 </button>-->
+                 </button>
                 <button th:case="" type="button" id="buttontest" th:if="${isAuthor}"
                         th:action="@{/edittest(course_id=${course.getId()}, test_id=${testlesson.getValue().getId()})}">Edit test
-                </button>
+                </button>-->
 
                 <div id="buttOfLectureInfo" th:if="${isAuthor}">
-                    <button type="button" id = "editB"
-                            th:action="@{/editlecture(course_id=${course.getId()}, lecture_id=${testlesson.getKey().getId()})}"
-                            name="button">Edit</button>
-
-                    <form id="deleteLectureForm" method="post" th:action="@{/deletelesson}">
-                        <!-- <input type="hidden" name="courseId" th:value="${course.getId()}"> -->
-                        <button type="button" name="button" onclick="openPopUpLessL()">Delete</button>
+                    <input type="hidden" id="deleteLessId" th:value="${testlesson.getKey().getId()}">
+                    <form th:action="@{/editlesson}">
+                        <input type="hidden" name="courseId" th:value="${course.getId()}">
+                        <input type="hidden" name="lessonId" th:value="${testlesson.getKey().getId()}">
+                        <button id = "editB" name="button">Edit</button>
                     </form>
 
-                    <!-- <button type="button" onclick="openPopUpLess(${lesson.getId()})" name="button">Delete</button> -->
+                    <button type="button" onclick="openPopUpLessL(this);" name="button">Delete</button>
+
+                    <form th:id="${'deleteLessonForm' + testlesson.getKey().getId()}" method="post" th:action="@{/deletelesson}">
+                        <input type="hidden" name="courseId" th:value="${course.getId()}">
+                        <input type="hidden" name="lessonId" th:value="${testlesson.getKey().getId()}">
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
-
-<!--<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${course}"></title>
-    <div th:replace="fragments/header :: header-css"/>
-    <link rel="stylesheet" type="text/css" th:href="@{css/course.css}">
-    <script th:src="@{/js/course.js}"></script>
-</head>
-<body>
-    <div th:replace="fragments/header :: header"/>
-
-    <h2><p align="center" th:text="${'Course: '+ course.getCourseName()}"></p></h2>
-    <div class="content">
-        <div class="leftCol">
-            <div id="navig">
-                <h3><p id="navTitle" align="center" >Education Plan</p></h3>
-                <ul th:each="testlesson : ${testlessons}">
-                    <a th:href="${'lesson?idLesson='+ testlesson.getKey().getId()}" th:text="${'• ' + testlesson.getKey().getLessName()}"></a>
-                </ul>
-            </div>
-
-            <div id="addLect" th:if="${isAuthor}">
-                <button type="button" name="button" onclick="pageRedirect('addlecture.jsp?course_id=<%=course_id%>')">Add lecture</button>
-            </div>
-            <div id="addExam" th:if="${isAuthor}" th:switch="${exam}">
-                <button th:case="null" th:action="@{/addtest(course_id=${course.getId()})}">Add Exam</button>
-                <button th:case="*" th:action="@{/edittest(course_id=${course.getId()})}">Edit Exam</button>
-            </div>
-
-        </div>
-
-    <div class="rightCol">
-        <div id="courseInfo">
-            <h2 id="courseInfoTitle" th:attr="contenteditable=${(edit && isAuthor) ? 'true' : 'false'}" th:text="${course.getCourseName()}"></h2>
-            <div class = blockRow id="lecturerBlock">
-                <div id="lecturer">Lecturer:</div>
-                <div id="lecturerOfCourse" th:text="${course.getLecturer()}"></div>
-        </div>
-        <div class = blockRow id="themeBlock">
-            <div id="theme">Theme:</div>
-            <div id="themeOfCourse" th:attr="contenteditable=${(edit && isAuthor) ? 'true' : 'false'}"
-                th:text="${course.getTheme()}"></div>
-        </div>
-            <div class = blockRow>
-                <div id="desc">Description:</div>
-                <div class= "ddesc" id="text">
-                    <p id="lorem" th:attr="contenteditable=${(edit && isAuthor) ? 'true' : 'false'}"
-                       th:text="${course.getDescription()}"></p>
-                </div>
-            </div>
-            <div id="buttOfCourseInfo" th:if="${isAuthor}">
-                <button type="button" onclick="call('<%=course_id%>', '<%=edit%>')" name="button" th:text="${edit ? 'Save' : 'Edit'}"></button>
-                <button type="button" onclick="openPopUpConf()" name="button">Delete</button>
-            </div>
-        </div>
-
-        <div id="lectureInfo" th:each="testlesson : ${testlessons}">
-            <div id="lectureHead">
-                <h5 id="lessonNum" th:text="${'Lecture ' + ''}"></h5>
-                <%if (!user.equals(request.getAttribute("course_lecturer"))){%>
-                <div th:switch="${isAuthor}">
-                    <h3 id="lectureInfoTitle">
-                        <a th:case="true" class="lecture_link" th:text="${testlesson.getKey().getLessName()}" th:href="@{/lecture(lecture_id=${testlesson.getKey().getId()})}"></a>
-                        <a th:case="false" class="lecture_link" th:text="${testlesson.getKey().getLessName()}" th:href="@{/editlecture(course_id=${testlesson.getKey().getId()})}"></a>
-                    </h3>
-                </div>
-            </div>
-            <div id="text">
-                <p id="lorem" th:text="${testlesson.getKey().getDescription()}"></p>
-            </div>
-            <div id="bottom" th:switch="${testlesson.getValue() == null}">
-                <button th:case="true" type="button" id="buttontest" th:if="${isAuthor}"
-                        th:action="@{/addtest(course_id=${course.getId()}, test_id='null'}">Add test
-                </button>
-                <button th:case="true" type="button" id="buttontest" th:if="${!isAuthor}"
-                        th:action="@{/passtest(course_id=${course.getId()}, test_id='null')}">Test
-                </button>
-                <button th:case="false" type="button" id="buttontest" th:if="${isAuthor}"
-                        th:action="@{/edittest(course_id=${course.getId()}, test_id=${testlesson.getValue().getId()})}">Edit test
-                </button>
-
-                <div id="buttOfLectureInfo" th:if="${isAuthor}">
-                    <button type="button" id = "editB"
-                            th:action="@{/editlecture(course_id=${course.getId()}, lecture_id=${testlesson.getKey().getId()})}"
-                            name="button">Edit</button>
-                    <button type="button" onclick="openPopUpLess(${lesson.getId()})" name="button">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-</body>
-</html>-->
