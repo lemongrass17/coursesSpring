@@ -21,7 +21,7 @@ import java.util.*;
  *
  * @author    Vladislava Prokopenko
  */
-@Controller
+@RestController
 public class CourseController {
     private ICourseService courseService;
     private ILessonService lessonService;
@@ -74,8 +74,8 @@ public class CourseController {
     /**
      * Controller method to get access and show information about courses on page allcourses.
      */
-    @RequestMapping({"/", "/allcourses"})
-    public String showAllCourses(Model model, @RequestParam("courseName") Optional<String> courseName,
+    @GetMapping(value = {"/allcourses"})
+    public List<Course> showAllCourses(Model model, @RequestParam("courseName") Optional<String> courseName,
                                  @RequestParam("theme") Optional<String> theme){
         List<Course> courses;
         if((!courseName.isPresent()) && (!theme.isPresent())) {
@@ -90,7 +90,7 @@ public class CourseController {
 
         model.addAttribute("themes", themes);
         model.addAttribute("courses", courses);
-        return "allcourses";
+        return courses;
     }
 
     /**
