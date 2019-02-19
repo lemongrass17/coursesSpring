@@ -1,5 +1,6 @@
 package com.squirrel.courses.controller;
 
+import com.squirrel.courses.dataaccess.dto.ThemesAndCoursesDTO;
 import com.squirrel.courses.dataaccess.model.Course;
 import com.squirrel.courses.dataaccess.model.Lesson;
 import com.squirrel.courses.dataaccess.model.Test;
@@ -7,7 +8,6 @@ import com.squirrel.courses.service.course.ICourseService;
 import com.squirrel.courses.service.test.ITestService;
 import com.squirrel.courses.service.lesson.ILessonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -75,9 +75,12 @@ public class CourseController {
      * Controller method to get access and show information about courses on page allcourses.
      */
     @GetMapping(value = {"/allcourses"})
-    public List<Course> showAllCourses(Model model, @RequestParam("courseName") Optional<String> courseName,
-                                 @RequestParam("theme") Optional<String> theme){
+    public ThemesAndCoursesDTO showAllCourses(Model model, @RequestParam("courseName") Optional<String> courseName,
+                                             @RequestParam("theme") Optional<String> theme){
+
+        ThemesAndCoursesDTO tac = new ThemesAndCoursesDTO();
         List<Course> courses;
+        List<String> themes = courseService.getAllThemes();
         if((!courseName.isPresent()) && (!theme.isPresent())) {
             courses = courseService.getAllCourses();
         } else if(!theme.isPresent()) {
@@ -85,12 +88,9 @@ public class CourseController {
         } else {
             courses = courseService.getCoursesByTheme(theme.get());
         }
-
-        List<String> themes = courseService.getAllThemes();
-
-        model.addAttribute("themes", themes);
-        model.addAttribute("courses", courses);
-        return courses;
+        tac.setThemes(themes);
+        tac.setCourses(courses);
+        return tac;
     }
 
     /**
